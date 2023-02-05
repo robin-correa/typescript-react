@@ -8,7 +8,11 @@ function App() {
 
   useEffect(() => {
     loadReminders();
-  });
+  }, []);
+
+  const removeReminder = (id: number) => {
+    setReminders(reminders.filter((reminder) => reminder.id !== id));
+  };
 
   const loadReminders = async () => {
     const reminders = await ReminderService.getReminders();
@@ -17,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <ReminderList items={reminders} />
+      <ReminderList items={reminders} onRemoveReminder={removeReminder} />
     </div>
   );
 }
