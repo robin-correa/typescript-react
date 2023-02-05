@@ -1,10 +1,28 @@
 import { useState } from "react";
-export default function NewReminder(): JSX.Element {
+
+interface NewReminderProps {
+  onAddReminder: (title: string) => void;
+}
+
+export default function NewReminder({
+  onAddReminder,
+}: NewReminderProps): JSX.Element {
   const [title, setTitle] = useState("");
+
+  const submitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!title) {
+      return;
+    }
+
+    onAddReminder(title);
+    setTitle("");
+  };
 
   return (
     <div>
-      <form>
+      <form onSubmit={submitForm}>
         <label htmlFor="title"></label>
         <input
           value={title}
@@ -12,6 +30,7 @@ export default function NewReminder(): JSX.Element {
           id="title"
           type="text"
           className="form-control"
+          autoFocus
         />
         <button type="submit" className="btn btn-primary my-3 rounded-pill">
           Add Reminder
